@@ -14,6 +14,7 @@ jobs:
         
       - name: install and test
         run: |
+          mkdir build
           cd build
           mkdir install
           cmake .. -DCMAKE_INSTALL_PREFIX=install
