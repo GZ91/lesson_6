@@ -50,6 +50,7 @@ public:
 	};
 	Singly_linked_list_container(std::initializer_list<T>);
 	Singly_linked_list_container() :size_container{ 0 }, begin_node{ nullptr }, end_node{ nullptr }, current_node{ nullptr }{}
+	Singly_linked_list_container(Singly_linked_list_container &&val);
 	void push_back(T);
 	void insert(T, int);
 	void erase(int);
@@ -62,7 +63,6 @@ public:
 
 
 private:
-	T* member;
 	int size_container;
 	Node* end_node;
 	Node* current_node;
@@ -71,7 +71,16 @@ private:
 
 
 template <typename T>
-Singly_linked_list_container<T>::Singly_linked_list_container(std::initializer_list<T> init) :size_container{ 0 }, member{ nullptr }, begin_node{ nullptr }, end_node{ nullptr }, current_node{ nullptr }
+Singly_linked_list_container<T>::Singly_linked_list_container(Singly_linked_list_container &&val) :size_container{ val.size_container }, begin_node{ val.begin_node }, end_node{ val.end_node }, current_node{ val.current_node }
+{
+	val.size_container = 0;
+	val.end_node = nullptr;
+	val.current_node = nullptr;
+	val.begin_node = nullptr;
+}
+
+template <typename T>
+Singly_linked_list_container<T>::Singly_linked_list_container(std::initializer_list<T> init) :size_container{ 0 }, begin_node{ nullptr }, end_node{ nullptr }, current_node{ nullptr }
 {
 	for (auto iter = init.begin(); iter != init.end(); ++iter)
 	{

@@ -25,6 +25,7 @@ void test_find(std::ostream &str, CONT<T>& list_cont, T _value)
 template<typename T, template<typename> typename CONT>
 void test_container(std::ostream& str, CONT<T>& cont)
 {
+
 	str << cont << std::endl;
 	str << cont.size() << std::endl;
 	cont.erase(2);
@@ -51,10 +52,11 @@ void test_container(std::ostream& str, CONT<T>& cont)
 	}
 	for (int i = 0; i < 2; i++) str << std::endl;
 
+	CONT<T> val(std::move(cont));
 
-	test_find(str, cont, 7);
+	test_find(str, val, 7);
 	str << std::endl;
-	test_find(str, cont, 19);
+	test_find(str, val, 19);
 	str << std::endl;
 }
 

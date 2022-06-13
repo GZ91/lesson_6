@@ -6,6 +6,7 @@ class Serial_container
 {
 public:
 	Serial_container();
+	Serial_container(Serial_container&& val);
 	Serial_container(size_t);
 	Serial_container(std::initializer_list<T>);
 	void resize(int);
@@ -38,6 +39,15 @@ Serial_container<T>::Serial_container() :size_container{ 0 }, end_index{ 0 }
 	int size_for_new = 2;
 	this->member = new T[size_for_new];
 	this->size_memory = size_for_new;
+}
+
+template <typename T>
+Serial_container<T>::Serial_container(Serial_container&& val) :size_container{ val.size_container }, end_index{ val.end_index }, member {val.member}, size_memory { val.size_memory }
+{
+	val.member = nullptr;
+	val.size_container = 0;
+	val.size_memory = 0;
+	val.end_index = 0;
 }
 
 template <typename T>
@@ -231,7 +241,7 @@ T Serial_container<T>::operator[] (int index)
 template <typename T>
 Serial_container<T>::~Serial_container()
 {
-	delete[] member;
+	if (member != nullptr) delete[] member;
 }
 
 

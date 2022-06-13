@@ -51,6 +51,7 @@ public:
 	};
 	List_container(std::initializer_list<T>);
 	List_container() :size_container{ 0 }, begin_node{ nullptr }, end_node{ nullptr }, current_node{ nullptr }{}
+	List_container(List_container &&val);
 	void push_back(T);
 	void insert(T, int);
 	void erase(int);
@@ -70,6 +71,15 @@ private:
 	Node* begin_node;
 };
 
+
+template <typename T>
+List_container<T>::List_container(List_container &&val) :size_container{ val.size_container }, begin_node{ val.begin_node }, end_node{ val.end_node }, current_node{ val.current_node }
+{
+	val.size_container = 0;
+	val.end_node = nullptr;
+	val.current_node = nullptr;
+	val.begin_node = nullptr;
+}
 
 
 template <typename T>
@@ -189,6 +199,10 @@ T List_container<T>::operator[] (int index)
 template <typename T>
 List_container<T>::~List_container()
 {
+	if (this->size() == 0)
+	{
+		return;
+	}
 	Node* n = this->begin_node;
 	while (true)
 	{
@@ -197,8 +211,9 @@ List_container<T>::~List_container()
 			break;
 		}
 		n = this->begin_node->next;
-		delete this->begin_node;
+ 		delete this->begin_node;
 		this->begin_node = n;
+		this->size_container--;
 	}
 }
 
