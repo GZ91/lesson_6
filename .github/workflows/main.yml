@@ -1,0 +1,23 @@
+name: Testing
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: ls
+        run: ls
+        
+      - name: install and test
+        run: |
+          mkdir build
+          cd build
+          mkdir install
+          cmake .. -DCMAKE_INSTALL_PREFIX=install
+          cmake --build . --target install
+          cd ..
+          .\build\install\bin\lesson_6.exe
